@@ -1,22 +1,26 @@
-import express from "express";
 import { createServer } from "http";
 import "dotenv/config";
 import connectDB from "./config/db.js";
+import app from "./app.js";
 
-const app = express();
 const httpServer = createServer(app);
 
 const PORT = process.env.PORT;
 
 const startServer = async () => {
-  await connectDB();
+  try {
+    await connectDB();
 
-  // ✅ Pass io as parameter - no circular import
-  // socketIo(io);
+    // ✅ Pass io as parameter - no circular import
+    // socketIo(io);
 
-  httpServer.listen(PORT, () => {
-    console.log(`Server is Working on ${PORT} Port`);
-  });
+    httpServer.listen(PORT, () => {
+      console.log(`🚀 Server is Working on ${PORT} Port`);
+    });
+  } catch (error) {
+    console.error("🛑 CRITICAL: Server Error! : ", error);
+    process.exit(1);
+  }
 };
 
 startServer();
