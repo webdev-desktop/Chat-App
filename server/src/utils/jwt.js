@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { formatPrivateUser, formatPublicUser } from "../helper/userformate.js";
 
 /**
  *  🔐 Generate Tokens
@@ -54,6 +55,19 @@ export const sendTokenResponse = (res, user, statusCode = 200, message) => {
     success: true,
     accessToken,
     user: privateUser,
+    message,
+  });
+};
+
+/**
+ * Response Public Data
+ */
+export const response = (res, user, statusCode = 200, message) => {
+  console.log(user);
+  const publicUser = formatPublicUser(user);
+  return res.status(statusCode).json({
+    success: true,
+    user: publicUser,
     message,
   });
 };
