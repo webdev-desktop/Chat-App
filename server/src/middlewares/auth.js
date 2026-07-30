@@ -1,5 +1,5 @@
 import UserModel from "../models/user.js";
-import ErrorHandler from "./error.js";
+import ErrorHandler from "../utils/ErrorHandler.js";
 import { verifyAccessToken } from "../utils/jwt.js";
 
 const isAuthentication = async (req, res, next) => {

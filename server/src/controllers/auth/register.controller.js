@@ -1,16 +1,13 @@
-import inputCheck from "../../helper/inputcheck.js";
-import ErrorHandler from "../../middlewares/error.js";
 import UserModel from "../../models/user.js";
+import ErrorHandler from "../../utils/ErrorHandler.js";
 import { sendTokenResponse } from "../../utils/jwt.js";
+import registerValidator from "../../validators/registerValidator.js";
 
 //#region User Register
-export const register = async (req, res, next) => {
+export default async function register(req, res, next) {
   try {
-    const { name, email, username, phone, password, bio, avatar } = inputCheck(
-      req,
-      next,
-      "register"
-    );
+    const { name, email, username, phone, password, bio, avatar } =
+      registerValidator(req);
 
     const existsEmailId = await UserModel.findOne({ email });
     if (existsEmailId)
@@ -51,5 +48,5 @@ export const register = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
+}
 //#endregion

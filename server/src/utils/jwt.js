@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { formatPrivateUser, formatPublicUser } from "../helper/userformate.js";
+import { formatPrivateUser, formatPublicUser } from "../helpers/formatter.js";
 
 /**
  *  🔐 Generate Tokens
@@ -24,6 +24,18 @@ export const verifyAccessToken = (token) => {
     return jwt.verify(token, process.env.JWT_SECRET);
   } catch (error) {
     console.log("JWT Access Token Error:", error.message);
+    return null;
+  }
+};
+
+/**
+ * ✅ Verify Refresh Token
+ */
+export const verifyRefreshToken = (token) => {
+  try {
+    return jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+  } catch (error) {
+    console.log("JWT Refresh Token Error:", error.message);
     return null;
   }
 };
@@ -60,36 +72,23 @@ export const sendTokenResponse = (res, user, statusCode = 200, message) => {
 };
 
 /**
- * Response Public Data
- */
-export const response = (res, user, statusCode = 200, message) => {
-  console.log(user);
-  const publicUser = formatPublicUser(user);
-  return res.status(statusCode).json({
-    success: true,
-    user: publicUser,
-    message,
-  });
-};
-
-/**
  * 🚪 Logout
  */
-// export const clearToken = (
-//   res,
-//   statusCode = 200,
-//   message = "Logged out successfully"
-// ) => {
-//   return res
-//     .status(statusCode)
-//     .cookie("refreshToken", "", {
-//       httpOnly: true,
-//       expires: new Date(Date.now()),
-//       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-//       secure: process.env.NODE_ENV === "production",
-//     })
-//     .json({
-//       success: true,
-//       message,
-//     });
-// };
+export const clearToken = (
+  res,
+  statusCode = 200,
+  message = "Logged out successfully"
+) => {
+  return res
+    .status(statusCode)
+    .cookie("refreshToken", "", {
+      httpOnly: true,
+      expires: new Date(Date.now()),
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      secure: process.env.NODE_ENV === "production",
+    })
+    .json({
+      success: true,
+      message,
+    });
+};

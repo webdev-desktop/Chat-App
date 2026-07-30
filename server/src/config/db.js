@@ -6,10 +6,10 @@ export default async function connectDB() {
       dbName: "Chat_Database",
     });
     console.log(
-      `✅ MongoDB Database Connected Successfully! \n on this Host: ${db.connection.host}`
+      `✅ MongoDB Database Connected Successfully! \n✅ On Database Host: ${db.connection.host}`
     );
   } catch (error) {
-    console.error("🛑 CRITICAL: Database Connection Failed! : ", error);
+    console.error("🛑 CRITICAL: Database Connection Error! : ", error);
     throw error;
   }
 }

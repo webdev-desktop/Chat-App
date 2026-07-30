@@ -1,5 +1,4 @@
 export const formatPublicUser = (user) => {
-  console.log(user);
   return {
     _id: user._id,
     name: user.name,

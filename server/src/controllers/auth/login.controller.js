@@ -1,19 +1,21 @@
-import inputCheck from "../../helper/inputcheck.js";
+import validateInput from "../../helpers/validateInput.js";
 import UserModel from "../../models/user.js";
+import ErrorHandler from "../../utils/ErrorHandler.js";
 import { sendTokenResponse } from "../../utils/jwt.js";
 
 //#region User Login
-export const login = async (req, res, next) => {
+export default async function login(req, res, next) {
   try {
-    const { username, password } = inputCheck(req, next);
+    const { username, password } = validateInput(req);
 
     let user = await UserModel.findOne({ username }).select("+password");
 
     if (!user)
-      return next(new ErrorHandler("User not found. Please register", 404));
+      return next(new ErrorHandler("Invalid username or password", 401));
 
     const isMatch = await user.comparePassword(password);
-    if (!isMatch) return next(new ErrorHandler("Invalid password", 400));
+    if (!isMatch)
+      return next(new ErrorHandler("Invalid username or password", 401));
 
     user = await UserModel.findByIdAndUpdate(
       user._id,
@@ -25,5 +27,5 @@ export const login = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
+}
 //#endregion
