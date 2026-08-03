@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { formatPrivateUser, formatPublicUser } from "../helpers/formatter.js";
+import { formatPrivateUser, formatPublicUser } from "./formatter.js";
 
 /**
  *  🔐 Generate Tokens

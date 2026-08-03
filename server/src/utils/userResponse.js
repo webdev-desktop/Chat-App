@@ -1,4 +1,4 @@
-import { formatPrivateUser, formatPublicUser } from "../helpers/formatter.js";
+import { formatPrivateUser, formatPublicUser } from "./formatter.js";
 
 export default function userResponse(
   res,

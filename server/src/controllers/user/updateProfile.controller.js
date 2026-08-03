@@ -1,14 +1,11 @@
-import validateInput from "../../helpers/validateInput.js";
+import updateValidator from "../../validators/updateProfileValidator.js";
 import UserModel from "../../models/user.js";
 import response from "../../utils/response.js";
 import userResponse from "../../utils/userResponse.js";
 
 export default async function updateProfile(req, res, next) {
   try {
-    const { name, email, username, phone, bio, avatar } = validateInput(
-      req,
-      "update"
-    );
+    const { name, email, username, phone, bio, avatar } = updateValidator(res);
 
     const conditions = [
       ...(email ? [{ email }] : []),

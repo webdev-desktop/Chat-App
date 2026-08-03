@@ -1,4 +1,4 @@
-import validateInput from "../../helpers/validateInput.js";
+import validateInput from "../../validators/validateInput.js";
 import UserModel from "../../models/user.js";
 import ErrorHandler from "../../utils/ErrorHandler.js";
 import { sendTokenResponse } from "../../utils/jwt.js";

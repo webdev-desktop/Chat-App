@@ -1,7 +1,7 @@
 import UserModel from "../../models/user.js";
 import ErrorHandler from "../../utils/ErrorHandler.js";
 import { sendTokenResponse } from "../../utils/jwt.js";
-import registerValidator from "../../validators/registerValidator.js";
+import registerValidator from "../../validators/authRegisterValidator.js";
 
 //#region User Register
 export default async function register(req, res, next) {
