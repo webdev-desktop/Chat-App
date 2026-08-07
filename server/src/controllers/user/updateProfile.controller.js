@@ -5,7 +5,7 @@ import userResponse from "../../utils/userResponse.js";
 
 export default async function updateProfile(req, res, next) {
   try {
-    const { name, email, username, phone, bio, avatar } = updateValidator(res);
+    const { name, email, username, phone, bio, avatar } = updateValidator(req);
 
     const conditions = [
       ...(email ? [{ email }] : []),

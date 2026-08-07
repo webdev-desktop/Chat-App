@@ -1,11 +1,13 @@
-export default function updateValidator(res) {
+import ErrorHandler from "../utils/ErrorHandler.js";
+
+export default function updateValidator(req) {
   const name = req?.body?.name?.trim().replace(/\s+/g, " ") || "";
   const email = req?.body?.email?.trim().toLowerCase() || "";
   const phone = req?.body?.phone?.trim() || undefined;
   const bio = req?.body?.bio?.trim() || "";
   const avatar = req?.file?.secure_url || "";
-  const username = rawUsername.toLowerCase() || "";
   const rawUsername = req.body?.username?.trim() || "";
+  const username = rawUsername.toLowerCase() || "";
 
   if (!name || !email || !rawUsername)
     throw new ErrorHandler(
