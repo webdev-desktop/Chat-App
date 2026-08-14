@@ -24,8 +24,6 @@ export default async function createConversation(req, res, next) {
     });
 
     if (conversation) return console.log(conversation);
-
-    // 👇 Ab yahan existing/new ka logic
   } catch (error) {
     next(error);
   }

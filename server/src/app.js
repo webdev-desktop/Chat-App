@@ -6,6 +6,7 @@ import authRoutes from "./routes/auth.route.js";
 
 import errorMiddleware from "./middlewares/error.js";
 import conversationRoutes from "./routes/conversation.route.js";
+import messageRoutes from "./routes/message.route.js";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.get("/health", (req, res) => {
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/message", messageRoutes);
 app.use("/api/v1/conversation", conversationRoutes);
 
 app.use(errorMiddleware);
