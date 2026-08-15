@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import findOrCreateConversation from "../../helper/findOrCreateConversation.js";
 import ConversationModel from "../../models/conversation.js";
 import MessageModel from "../../models/message.js";
@@ -15,13 +16,16 @@ export default async function sendMessage(req, res, next) {
 
     if (!message) return next(new ErrorHandler("Message is required", 400));
 
+    if (!mongoose.Types.ObjectId.isValid(receiverId))
+      return next(new ErrorHandler("Invalid receiver ID", 400));
+
     const receiver = await UserModel.findById(receiverId).lean();
 
     if (!receiver) return next(new ErrorHandler("User not found", 404));
 
     if (req.user._id.toString() === receiver._id.toString())
       return next(
-        new ErrorHandler("You cannot create a conversation with yourself", 400)
+        new ErrorHandler("You cannot send a message to yourself", 400)
       );
 
     const conversationId = await findOrCreateConversation(
@@ -29,20 +33,29 @@ export default async function sendMessage(req, res, next) {
       receiver._id
     );
 
-    const messageRes = await MessageModel.create({
+    const newMessage = await MessageModel.create({
       conversationId,
       senderId: req.user._id,
-      receiverId,
+      receiverId: receiver._id,
       message,
       delivered: true,
     });
 
-    const conversation = await ConversationModel.updateOne({
-      lastMessage: message,
-      lastMessageAt: Date.now(),
-    });
+    console.log(conversationId);
 
-    response(res, messageRes, "New Message", 201);
+    const conversation = await ConversationModel.updateOne(
+      { _id: conversationId },
+      {
+        lastMessage: {
+          messageId: newMessage._id,
+          message,
+          senderId: req.user._id,
+        },
+        lastMessageAt: new Date(),
+      }
+    );
+
+    response(res, newMessage, "New Message", 201);
   } catch (error) {
     next(error);
   }

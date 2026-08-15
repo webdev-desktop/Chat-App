@@ -1,22 +1,18 @@
 import ConversationModel from "../models/conversation.js";
 
 export default async function findOrCreateConversation(senderId, receiverId) {
-  try {
-    let conversation = await ConversationModel.findOne({
-      participants: { $all: [senderId, receiverId] },
-    });
+  const oldConversation = await ConversationModel.findOne({
+    participants: { $all: [senderId, receiverId] },
+  });
 
-    if (conversation) console.log(conversation._id, "Old Conversation ID");
-    if (conversation) return conversation._id;
+  if (oldConversation) console.log(oldConversation._id, "Old Conversation ID");
+  if (oldConversation) return oldConversation._id;
 
-    conversation = await ConversationModel.create({
-      participants: [senderId, receiverId],
-    });
+  const newConversation = await ConversationModel.create({
+    participants: [senderId, receiverId],
+  });
 
-    console.log(conversation._id, "New Conversation ID Generated");
+  console.log(newConversation._id, "New Conversation ID Generated");
 
-    return conversation._id;
-  } catch (error) {
-    throw error;
-  }
+  return newConversation._id;
 }
