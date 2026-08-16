@@ -38,10 +38,7 @@ export default async function sendMessage(req, res, next) {
       senderId: req.user._id,
       receiverId: receiver._id,
       message,
-      delivered: true,
     });
-
-    console.log(conversationId);
 
     const conversation = await ConversationModel.updateOne(
       { _id: conversationId },

@@ -2,6 +2,7 @@ import updateValidator from "../../validators/updateProfileValidator.js";
 import UserModel from "../../models/user.js";
 import response from "../../utils/response.js";
 import userResponse from "../../utils/userResponse.js";
+import ErrorHandler from "../../utils/ErrorHandler.js";
 
 export default async function updateProfile(req, res, next) {
   try {
